@@ -1,0 +1,74 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal" var="principal"/>
+</sec:authorize>
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/d547fb2b9c.js"
+	crossorigin="anonymous"></script>
+<!--FontAwesome-->
+<script	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script defer src="/resources/js/header.js"></script>
+<!-- <script defer src="/resources/js/footer.js"></script>
+ -->
+<link rel="stylesheet" href="/resources/css/commit.css">
+<title>WZ</title>
+</head>
+<body>
+	<div id="skipNavi">
+		<a href="#container">본문 바로가기</a>
+	</div>
+	<div id="wrap">
+		<div id="header">
+			<div class="headerWrap">
+				<h1>Waste Zero</h1>
+				<nav class="gnb">
+					<ul>
+						<li><a href="/mapList">WZMAP</a></li>
+						<li><a href="/board/list">BOARD</a></li>
+						<li><a href="/actList">ACTLIST</a></li>
+						<sec:authorize access="hasRole('USER')">
+							<li><a href="/user/mypage">MYPAGE</a></li>
+						</sec:authorize>
+						<sec:authorize access="hasRole('ADMIN')">
+							<li><a href="/admin">ADMIN</a></li>
+						</sec:authorize>
+						<li><a href="/tree">MYTREE</a></li>
+						<sec:authorize access="isAnonymous()">
+							<li><a href="/user/login">로그인/회원가입</a></li>
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+							<li><a href="/user/logout">로그아웃</a></li>
+						</sec:authorize>
+					</ul>
+				</nav>
+				<div class="mobdiv">
+					<div class="mobsign">
+						<p>로그인 / 회원가입</p>
+					</div>
+					<div class="mobnav">
+						<p class="menubt">
+							<i class="fa-solid fa-bars"></i>
+						</p>
+						<div class="mobwrap">
+							<ul class="mobul">
+								<li><a href="#">WZMAP</a></li>
+								<li><a href="#">BOARD</a>
+								<li><a href="#">MYPAGE</a></li>
+								<li><a href="#">FAQ</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

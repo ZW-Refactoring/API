@@ -1,0 +1,39 @@
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+  <h1>Waste Zreo</h1>
+  <nav class="gnb">
+    <ul>
+      <li><a href="/mapList">WZMAP</a></li>
+      <li><a href="/activity">ACTLIST</a></li>
+      <li><a href="/user/mypage">MYPAGE</a></li>
+      <li><a href="#">FAQ</a></li>
+      <sec:authorize access="isAnonymous()">
+      	<li><a href="/login">로그인/회원가입</a></li>
+      </sec:authorize>
+      <sec:authorize access="isAuthenticated()">
+	    <li><a href="/logout">로그아웃</a></li>
+      </sec:authorize>
+    </ul>
+  </nav>
+  <div class="mobdiv">
+    <div class="mobsign">
+      <p><a href="/login">濡쒓렇�씤 / �쉶�썝媛��엯</a></p>
+    </div>
+    <div class="mobnav">
+      <p class="menubt"><i class="fa-solid fa-bars"></i></p>
+      <div class="mobwrap">
+      <ul class="mobul">
+        <li><a href="/map">WZMAP</a></li>
+      <li><a href="#">BOARD</a>
+        <ul class="boardul">
+          <li><a href="#">�씤利�</a></li>
+          <li><a href="#">�옄�쑀</a></li>
+        </ul>
+      </li>
+      <li><a href="/activity">ACTLIST</a></li>
+      <li><a href="#">MYPAGE</a></li>
+      <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.zero.waste.mapper.CommentMapper">
+   <insert id="save" parameterType="comment">
+        insert into comment(userid, comment_content, board_id)
+        values(#{userid}, #{commentContent}, #{boardId})
+   </insert>
+
+   <select id="findAll" parameterType="int" resultType="Comment">
+        select * from comment where board_id=#{boardId} order by comment_id desc
+   </select>
+    <delete id="deleteComment" parameterType="map">
+        DELETE FROM comment
+        WHERE comment_id = #{commentId}
+          AND userid = #{userid}
+    </delete>
+ </mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper
+3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.waste.mapper.BoardMapper">
+
+    <select id="getAllBoardLinks" resultType="String">
+        SELECT board_link FROM board
+    </select>
+
+    <select id="getListLimit" resultType="com.zero.board.Board">
+        SELECT * FROM board ORDER BY board_id DESC LIMIT 3;
+    </select>
+
+    <sql id="search">
+        <if test="type=='boardAuthor'">
+            WHERE board_author LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="type=='boardTitle'">
+            WHERE board_title LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="type=='boardDescription'">
+            WHERE board_description LIKE CONCAT('%',#{keyword},'%')
+        </if>
+    </sql>
+
+    <select id="getList" resultType="Board" parameterType="Criteria">
+        SELECT * FROM board
+        <include refid="search"/>
+        ORDER BY board_id DESC
+        LIMIT #{pageStart}, #{perPageNum}
+    </select>
+
+    <insert id="insert" parameterType="Board">
+        INSERT INTO board(board_id, board_title, board_link, board_description, board_author, board_date, board_available)
+        VALUES(#{boardId}, #{boardTitle}, #{boardLink}, #{boardDescription}, #{boardAuthor}, now(), 1)
+    </insert>
+
+    <select id="read" resultType="Board">
+        SELECT * FROM board WHERE board_id=#{boardId}
+    </select>
+
+    <update id="update" parameterType="Board">
+        UPDATE board SET board_title=#{boardTitle}, board_description=#{boardDescription}
+        WHERE board_id=#{boardId}
+    </update>
+
+    <delete id="delete">
+        UPDATE board SET board_available=0 WHERE board_id=#{boardId}
+    </delete>
+
+
+    <select id="totalCount" resultType="int" parameterType="Criteria">
+        SELECT COUNT(*) FROM board
+        <include refid="search"/>
+    </select>
+</mapper>

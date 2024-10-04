@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.waste.mapper.ActivityMapper">
+	<select id="getActivityAll" resultType="ActVO">
+		select a.act_id,
+		act_name,
+		c.act_ctgr_name act_category, a.point from activity
+		a,
+		activity_category c where a.act_category =
+		c.act_ctgr_id order by
+		a.act_id
+	</select>
+
+	<select id="getCategoryAll" resultType="hashmap">
+		select act_ctgr_name from
+		activity_category
+	</select>
+
+	<select id="getStateAll" resultType="hashmap">
+		select state_name from
+		activity_state_code
+	</select>
+
+	<select id="getActivityCtgr" parameterType="String"
+		resultType="ActVO">
+		select * from(
+		select a.act_id, act_name, c.act_ctgr_name
+		act_category, a.point from activity a,
+		activity_category c where
+		a.act_category =
+		c.act_ctgr_id ) allActivity
+		where act_category =
+		#{ctgr}
+	</select>
+
+	<select id="getActivityState" parameterType="map"
+		resultType="ActStateVO">
+		SELECT
+		a.act_id,
+		a.act_name,
+		s.state,
+		c.state_name,
+		s.start_date,
+		s.end_date,
+		CASE
+		WHEN s.state = 1 THEN CONCAT(
+		LPAD(TIMESTAMPDIFF(HOUR, NOW(), DATE_ADD(DATE(s.start_date), INTERVAL
+		1 DAY)), 2, '0'), '시간 ',
+		LPAD(TIMESTAMPDIFF(MINUTE, NOW(),
+		DATE_ADD(DATE(s.start_date),
+		INTERVAL 1 DAY)) % 60, 2, '0'), '분 ',
+		LPAD(TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(DATE(s.start_date),
+		INTERVAL 1 DAY)) % 60, 2, '0'),
+		'초'
+		)
+		ELSE ''
+		END AS time_left
+		FROM
+		activity a,
+		activity_state s,
+		activity_state_code c
+		WHERE
+		userid =
+		#{userid}
+		AND a.act_id = s.act_id
+		AND s.state = c.state_code
+		AND state_name = #{ctgr}
+		ORDER BY
+		s.act_id,
+		s.state ASC
+	</select>
+
+	<select id="getUserActState" resultType="UserActDTO">
+		SELECT
+		b.act_id, s.state,
+		b.bookmark
+		FROM
+		(SELECT a.act_id, b.bookmark_id bookmark
+		FROM (activity a
+		left join (select * from bookmark where
+		userid=#{userid}) b
+		on a.act_id
+		= b.act_id)) b
+		left join (select act_id, state from activity_state
+		where
+		userid=#{userid} and
+		state=1) s
+		on b.act_id=s.act_id
+		order by
+		b.act_id
+	</select>
+
+
+	<select id="getUserActivity" resultType="ActStateVO">
+		SELECT
+		a.act_id,
+		a.act_name,
+		s.state,
+		c.state_name,
+		s.start_date,
+		s.end_date,
+		CASE
+		WHEN s.state = 1 THEN CONCAT(
+		LPAD(TIMESTAMPDIFF(HOUR, NOW(), DATE_ADD(DATE(s.start_date), INTERVAL 1 DAY)), 2, '0'), '시간 ',
+		LPAD(TIMESTAMPDIFF(MINUTE, NOW(), DATE_ADD(DATE(s.start_date),
+		INTERVAL 1 DAY)) % 60, 2, '0'), '분 ',
+		LPAD(TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(DATE(s.start_date), INTERVAL 1 DAY)) % 60, 2, '0'),
+		'초'
+		)
+		ELSE ''
+		END AS time_left
+		FROM
+		activity a,
+		activity_state s,
+		activity_state_code c
+		WHERE
+		userid = #{userid}
+		AND a.act_id = s.act_id
+		AND s.state = c.state_code
+		ORDER BY
+		s.start_date DESC,
+		s.act_id,
+		s.state ASC
+	</select>
+
+	<select id="getUserActivityWS2"
+		resultType="com.zero.websocket.OutputMessageVO"
+		parameterType="com.zero.websocket.MessageVO">
+		select act_id, state, time_left from (
+		SELECT
+		a.act_id,
+		a.act_name,
+		s.state,
+		c.state_name,
+		s.start_date,
+		s.end_date,
+		CASE
+		WHEN
+		s.state = 1 THEN CONCAT(
+		LPAD(TIMESTAMPDIFF(HOUR, NOW(),
+		DATE_ADD(DATE(s.start_date), INTERVAL 1 DAY)), 2, '0'), '/',
+		LPAD(TIMESTAMPDIFF(MINUTE, NOW(), DATE_ADD(DATE(s.start_date),
+		INTERVAL 1 DAY)) % 60, 2, '0'), '/',
+		LPAD(TIMESTAMPDIFF(SECOND, NOW(),
+		DATE_ADD(DATE(s.start_date), INTERVAL 1 DAY)) % 60, 2, '0'),
+		'/'
+		)
+		ELSE
+		''
+		END AS time_left
+		FROM
+		activity a,
+		activity_state s,
+		activity_state_code
+		c
+		WHERE
+		userid = #{userid}
+		AND a.act_id = s.act_id
+		AND s.state =
+		c.state_code
+		ORDER BY
+		s.act_id,
+		s.state ASC
+		) a where a.state=1
+		and a.act_id=#{act_id}
+	</select>
+
+
+	<select id="checkActState" resultType="_int">
+		select count(*) from
+		activity_state where userid = #{userid} and
+		act_id=#{actId } and
+		state=1
+	</select>
+
+	<insert id="startActivity">
+		insert into activity_state(userid, act_id, state,
+		start_date) values(#{userid},
+		#{actId }, 1, current_timestamp())
+	</insert>
+
+	<update id="ctfcActivity" parameterType="ActStateVO">
+		update activity_state
+		set state = 3, end_date = current_timestamp,
+		ctfc_filename=#{ctfcFilename} where act_id=#{actId } and
+		userid =
+		#{userid} and state=1;
+	</update>
+
+	<update id="cancleActivity">
+		update activity_state set state = -1, end_date =
+		current_timestamp where
+		act_id=#{actId } and userid = #{userid} and
+		state=1;
+	</update>
+
+	<insert id="addBookmark" parameterType="map">
+		insert into bookmark
+		(userid, act_id) values (#{userid}, #{actId })
+	</insert>
+
+	<delete id="removeBookmark" parameterType="map">
+		delete from bookmark
+		where userid = #{userid}
+		and act_id = #{actId}
+	</delete>
+
+	<select id="getUserBookmarkList" parameterType="String"
+		resultType="UserBookmarkVO">
+		SELECT b.act_id, a.act_name
+		FROM bookmark b
+		JOIN activity a
+		ON b.act_id = a.act_id
+		WHERE b.userid = #{userid}
+	</select>
+	
+	<select id="getStateCount" resultType="map">
+		select (select count(state) from activity_state where act_id = #{actno} and
+		state = 1) ing, (select count(state) from activity_state where act_id
+		= #{actno} and state = 2) end from dual
+	</select>
+
+	<select id="getStsAll" resultType="ActStateVO">
+		select a.act_id, s.userid,
+		s.state_id,
+		state, state_name, s.start_date, s.end_date, ctfc_filename
+		from
+		activity_state
+		s
+		left join activity_state_code c
+		on
+		s.state=c.state_code
+		left join
+		activity a
+		on s.act_id=a.act_id
+		where
+		a.act_id=#{actNo} and
+		state in (2,3)
+
+	</select>
+
+	<select id="findRep" resultType="UserRepVO">
+		select * from report where
+		sts_id=#{stsId}
+	</select>
+
+	<insert id="insertRep" parameterType="UserRepVO">
+		insert into report(sts_id,
+		reporter, reason,
+		rep_result, sdate) values(#{stsId}, #{reporter},
+		#{reason},
+		0,current_timestamp())
+	</insert>
+
+	<select id="findByuseridAndstsId" resultType="UserRepVO">
+		select * from
+		report where sts_id=#{stsId} and reporter=#{userid}
+
+	</select>
+
+	<select id="getAllReports" resultType="UserRepVO">
+		select * from report;
+	</select>
+
+	<update id="saveReportResult" parameterType="map">
+		update report SET
+		rep_result = #{repResult} WHERE rep_id = #{repId}
+	</update>
+
+	<select id="getStsByStateId" resultType="ActStateVO">
+		select * from
+		activity_state where state_id=#{stsId}
+	</select>
+
+</mapper>

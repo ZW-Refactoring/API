@@ -1,0 +1,77 @@
+
+ body {
+     background-color: #f2f2f2;
+     margin: 0;
+     padding-top: 50px;
+     min-height: 100vh;
+     overflow-y: auto;
+ }
+
+.joinWrap {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 50px auto;
+    width: 30%;
+    padding: 20px;
+    max-height: calc(100vh - 100px); /* Adjust this as needed */
+    overflow-y: auto;
+}
+h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.searchBtn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.searchBtn:hover {
+    background-color: #0056b3;
+}
+.btnGroup {
+    text-align: center;
+}
+.cancelBtn,
+.submitBtn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.cancelBtn:hover,
+.submitBtn:hover {
+    background-color: #218838;
+}
+.fieldError, .error {
+    font-size: 0.8em;
+    color: red;
+    font-weight: bold;
+}

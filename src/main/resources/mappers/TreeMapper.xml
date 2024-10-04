@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.waste.mapper.TreeMapper">
+	<select id="getPointByUserId" parameterType="String" resultType="_int">
+		select user_point from user where userid = #{value}
+	</select>
+	<select id="getRankByUserId" parameterType="String" resultType="_int">
+		SELECT 
+		(SELECT COUNT(*) + 1 FROM user u2 WHERE u2.user_point > u1.user_point) AS user_rank
+		FROM user u1
+		WHERE userid = #{value}
+	</select>
+	<select id="getRanksAll" resultType="UserRankVO">
+		SELECT userid, user_point, 
+	    (SELECT COUNT(*) + 1 FROM user u2 WHERE u2.user_point > u1.user_point) AS user_rank
+		FROM user u1
+		ORDER BY user_point DESC
+	</select>
+</mapper>

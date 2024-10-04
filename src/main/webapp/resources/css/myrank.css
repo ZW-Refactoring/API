@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+#wrap, #header {
+	display: none;
+}
+
+html {
+	overflow-y: auto;
+}
+
+#list {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+body {
+	background-color: #2E5A3C;
+	color: white;
+}
+
+.table {
+	background-color: white;
+}
+
+th, td {
+	text-align: center;
+}
+
+.highlight-row {
+	background-color: #CCCCCC;
+}

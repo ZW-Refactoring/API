@@ -1,0 +1,132 @@
+@charset "UTF-8";
+/* * {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+} */
+html,
+body {
+    margin: 0; /* body의 기본 margin을 제거합니다. */
+    padding: 0; /* body의 기본 padding을 제거합니다. */
+}
+html{
+	overflow-y: auto; /* 세로 스크롤을 허용합니다. */
+}
+
+#wrap{
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 250px;
+}
+
+#footer{
+  height: 250px;
+  position : relative;
+  transform : translateY(-100%);
+}
+
+body{
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#actname, #dailyName{
+	color:black;
+}
+#actname:hover, #dailyName:hover {
+    color: blue; /* 호버시 텍스트 색상을 파란색으로 변경 */
+    text-decoration: underline; /* 호버시 텍스트에 밑줄 추가 */
+}
+#mybadge{
+	color:blue;
+	text-decoration: underline;
+}
+#dailyCustom{
+	background-color: #F5F5DC;
+}
+
+section{
+	border: 1px solid black;
+	height : 100vh;
+}
+
+.image-container {
+    width: 50%;
+    position:relative;
+}
+.overlay-image {
+    position: absolute;
+    top: 63%; /* 부모 요소의 세로 중앙으로부터 */
+    left: 50%; /* 부모 요소의 가로 중앙으로부터 */
+    transform: translate(-50%, -50%); /* 이미지의 중심을 화면의 중심으로 이동 */
+    width: 20%; /* 이미지의 너비를 조정할 수 있습니다. */
+}
+.process {
+    position: absolute;
+    top: 92%; /* 부모 요소의 세로 중앙으로부터 */
+     /* 부모 요소의 가로 중앙으로부터 */
+    left:45%;
+    transform: translate(-50%, -50%); /* 이미지의 중심을 화면의 중심으로 이동 */
+    width: 10%; /* 이미지의 너비를 조정할 수 있습니다. */
+}
+#screen-bg-img{
+    width:50%;
+}
+#lb {
+    width: 15vw;
+    height: 40px;
+    position: relative;
+}
+.home-button{
+    width: 193px;
+    height: 252px;
+    margin: 0 auto;
+    margin-top: 16.6px;
+    background-color: #f1f8e9;
+}
+.custom-box {
+      width: fit-content; /* 텍스트에 맞게 자동으로 크기 조정 */
+      padding: 5px; /* 내부 여백 */
+      border: 1px solid #ced4da; /* 테두리 스타일 */
+      border-radius: 5px; /* 테두리 둥글게 */
+      font-size: 10px;
+    }
+#align {
+	width:80%;
+	margin:auto;
+    top: 20px;
+    text-align: center; /* 가로 가운데 정렬 */
+    display: flex; /* 세로 가운데 정렬 */
+    justify-content: center; /* 세로 가운데 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    /* height: 130vh; */ /* 화면 전체 높이를 사용하여 세로 가운데 정렬 */
+    flex-flow: column nowrap; /* 세로 방향으로 요소들을 정렬 */
+}
+@media screen and (min-width: 768px) {
+    #lb {
+        left: -3.4em;
+    }
+}
+/* 모바일 화면에서 적용될 스타일 */
+@media screen and (max-width: 767px) {
+    #lb {
+        left: -1.4em;
+    }
+}
+#plusButton {
+    width: 30vh;
+    height: 38px;
+    padding: 9px;
+    text-align: center;
+    background-color: #94d3ac;
+    border-radius: 20px;
+    border: none;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    color: white;
+}

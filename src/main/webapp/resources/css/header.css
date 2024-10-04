@@ -1,0 +1,195 @@
+/*header*/
+#header{
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+  .headerWrap{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 40px;
+    background-color: inherit;
+    transition: all 1s ease;
+  }
+.headerWrap.on{
+  background-color: #fff;
+}
+.headerWrap>h1{
+  width: 80px;
+  height: 80px;
+  text-indent: -9999px;
+  background: url('../images/logo.png') no-repeat;
+  background-size: 80px 80px;
+  cursor: pointer;
+}
+.mobdiv{
+  display: none;
+}
+.gnb{
+  width: 40%
+}
+.gnb a:hover{
+  color: #8AAB95;
+}
+.gnb>ul{
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  font-weight: 700;
+} 
+.gnb>ul>li{
+  padding: 10px 15px;
+}
+.gnb>ul>li>a{
+  color: #2E5A3C;
+}
+.gnb>ul>li:last-child{
+background: #2E5A3C;
+border-radius: 5px;
+transition: all 0.5s ease;
+}
+.gnb>ul>li:last-child:hover{
+  background: #8AAB95;
+}
+.gnb>ul>li:last-child>a{
+  color: white;
+}
+.gnb>ul>li:last-child:hover>a{
+  color: #2E5A3C;
+}
+.gnb>ul>li:nth-child(2){
+position: relative;
+}
+.boardul{
+  width: 100%;
+  height: 0;
+  position: absolute;
+  left: 10%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.boardul.on{
+  opacity: 1;
+  height: 80%;
+}
+.boardul>li{
+  width: 50%;
+
+  
+}
+.boardul>li>a{
+  color: #2E5A3C;
+}
+
+
+@media screen and (max-width: 1700px) {
+  .headerWrap{
+    width: 100%;
+    padding: 15px 20px;
+     position: relative;
+  }
+  .headerWrap>h1{
+    width: 50px;
+    height: 50px;
+    text-indent: -9999px;
+    background: url('../images/logo.png') no-repeat;
+    background-size: 50px 50px;
+    cursor: pointer;
+  }
+  .gnb{
+    width: 70%
+  }
+  .boardul.on{
+    opacity: 1;
+    height: 60%;
+  }
+}
+  @media screen and (max-width: 767px) {
+    .headerWrap{
+      position: relative;
+    }
+    .mobdiv{
+      display: flex;
+      width: 40%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      color: #2E5A3C;
+    }
+    .mobdiv>div>p{
+      font-size: 25px;
+    }
+    .mobdiv>.mobsign>p{
+      position: relative;
+      font-size: 15px;
+      padding: 10px 15px;
+      background: #2E5A3C;
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 20;
+    }
+    .menubt{
+      position: relative;
+      font-size: 25px;
+      cursor: pointer;
+      z-index: 30;
+    }
+    .mobnav>.mobwrap{
+      position: absolute;
+      text-align: right;
+      background: rgba(255, 255, 255, 0);
+      top: 0;
+      right: 0;
+      width: 100vw;
+      height: 100vh;
+      transition: all ease 0.5s;
+    }
+    .mobnav>.mobwrap.on{
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .mobnav>.mobwrap>.mobul{
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      right: 0;
+      width: 0;
+      height: 100%;
+      padding-top: 15%;
+      background: #fff;
+      transition: all ease 0.5s;
+    }
+    .mobnav>.mobwrap>.mobul.on{
+      width: 50%;
+    }
+    .mobnav>.mobwrap>.mobul>li{
+      padding: 20px;
+      cursor: pointer;
+    }
+    .mobnav>.mobwrap>.mobul>li:hover>a{
+      color: #8AAB95;
+    }
+    .mobnav>div>.mobul>li a{
+      font-size: 15px;
+      color: #2E5A3C;
+    }
+    .gnb{
+      display: none;
+    }
+  }
+  
+  

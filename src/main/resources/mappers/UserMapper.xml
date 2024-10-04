@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zero.waste.mapper.UserMapper">
+
+	<insert id="insertUser" parameterType="com.zero.user.dto.User">
+	    INSERT INTO user
+	        (userid, password, phone_num, birthday, zip_code, street_address, detail_address, user_point, user_status, email, role, provider, provider_id, create_date)
+	    VALUES (#{userid}, #{password}, #{phoneNum}, #{birthday}, #{zipCode}, #{streetAddress}, #{detailAddress}, 0, 1, #{email}, #{role}, #{provider}, #{providerId}, now())
+	</insert>
+
+    <select id="findByUsername" resultType="com.zero.user.dto.User" parameterType="String">
+        SELECT * FROM user
+        WHERE userid=#{userid}
+    </select>
+
+    <update id="updateUser">
+    	UPDATE user set password=#{password}, phone_num=#{phoneNum}, birthday=#{birthday}, email=#{email},
+    					zip_code=#{zipCode}, street_address=#{streetAddress}, detail_address=#{detailAddress}
+    	WHERE userid=#{userid}
+    </update>
+    
+    <update id="delete" parameterType="com.zero.user.dto.User">
+    	UPDATE user set password=#{password}, user_status=-1, deactivate_date=now()
+    	WHERE userid=#{userid}
+    </update>
+
+</mapper>

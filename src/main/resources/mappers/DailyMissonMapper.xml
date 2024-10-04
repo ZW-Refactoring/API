@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.waste.mapper.DailyMissionMapper">
+	<select id="getDailyMissions"
+		resultType="ActVO"
+		parameterType="_long">
+		SELECT * FROM activity
+		ORDER BY RAND(#{seed})
+		LIMIT 3
+	</select>
+	<insert id="insertUserDailyMission" parameterType="map">
+		insert into user_daily_mission (userid, act_id, mission_date)
+		values (#{userid}, #{actId}, now())
+	</insert>
+	<select id="getUserDailyMission" parameterType="UserDailyMissionVO" resultType="UserDailyMissionVO">
+		select * from user_daily_mission where userid = #{userid}
+		and mission_date = #{missionDate}
+	</select>
+	<select id="getDailyMissionsExists" parameterType="_int" resultType="ActVO">
+		SELECT * FROM activity
+		WHERE act_id = #{actId}
+	</select>
+</mapper>

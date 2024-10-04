@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.waste.mapper.MapMapper">
+
+	<select id="selectMapView" resultType="MapVO">
+		SELECT * FROM shop
+	</select>
+	<resultMap type="com.zero.map.MapDTO" id="map">
+		<result property="type" column="type" />
+		<result property="keyword" column="keyword" />
+	</resultMap>
+
+	<select id="searchKeyword" resultType="MapVO">
+		select * from shop where
+		${type} like '%${keyword}%'
+	</select>
+
+	<select id="searchCategory" resultType="MapVO"
+		parameterType="_int">
+		select * from shop where shop_category = #{shop_category}
+	</select>
+
+	<select id="getMapAll" resultType="MapVO">
+		SELECT *,
+		(6371 * ACOS(
+		COS(RADIANS(lat)) * COS(RADIANS(#{lat})) * COS(RADIANS(#{lng}) - RADIANS(lng)) +
+		SIN(RADIANS(lat)) * SIN(RADIANS(#{lat}))
+		)) AS distance
+		FROM shop
+		HAVING distance &lt;= 20
+		ORDER BY distance
+		LIMIT #{size} OFFSET #{offset}
+	</select>
+
+	<select id="getMapCountWithinRadius" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+		SELECT (6371 * ACOS(
+		COS(RADIANS(lat)) * COS(RADIANS(#{lat})) * COS(RADIANS(#{lng}) - RADIANS(lng)) +
+		SIN(RADIANS(lat)) * SIN(RADIANS(#{lat}))
+		)) AS distance
+		FROM shop
+		HAVING distance &lt;= 20
+		) AS temp
+	</select>
+
+	<select id="getMapAllCount" resultType="int">
+		select count(*) from shop
+	</select>
+</mapper>

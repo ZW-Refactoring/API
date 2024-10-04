@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
+3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.waste.mapper.AdminMapper">
+
+	<select id="getReportData" resultType="ReportVO">
+		SELECT r.rep_id, r.sts_id,
+		r.reporter, r.reason, r.rep_result, r.sdate,
+		r.edate, s.userid,
+		s.state_id, s.state, s.ctfc_filename
+		FROM report r
+		LEFT JOIN
+		activity_state s ON r.sts_id = s.state_id
+	</select>
+
+	<select id="getReportById" resultType="ReportVO">
+		SELECT r.rep_id, r.sts_id,
+		r.reporter, r.reason, r.rep_result, r.sdate,
+		r.edate, s.userid,
+		s.state_id, s.state, s.ctfc_filename
+		FROM report r
+		LEFT JOIN
+		activity_state s ON r.sts_id = s.state_id
+		WHERE rep_id = #{repId}
+	</select>
+
+	<select id="updateReportResult" parameterType="int">
+		UPDATE report SET
+		rep_result = 1 WHERE rep_id = #{repId}
+	</select>
+
+	<update id="updateReport" parameterType="ReportVO">
+		UPDATE report
+		SET
+		rep_result = #{repResult},
+		sts_id = (SELECT state_id FROM
+		activity_state WHERE state = #{state})
+		WHERE rep_id = #{repId}
+	</update>
+
+	<update id="updateResultAndState" parameterType="map">
+		UPDATE
+		activity_state AS a
+		INNER JOIN report AS r ON a.state_id = r.sts_id
+		SET
+		a.state = #{state},
+		r.rep_result = 1,
+		r.edate = current_timestamp()
+		WHERE
+		r.rep_id = #{repId};
+	</update>
+
+	<update id="initActivityState">
+		update activity_state set state = -1, end_date =
+		current_timestamp() where state = 1
+	</update>
+
+	<select id="getCtfcList" resultType="ActStateVO">
+		select state_id, start_date,
+		act_id, userid from activity_state s
+		left join report r
+		on s.state_id =
+		r.sts_id
+		where timestampdiff(hour, end_date, current_timestamp)>=48 and
+		rep_result
+		is null and state = 3
+	</select>
+
+	<select id="checkMission" resultType="_int">
+		select count(*) from
+		user_daily_mission
+		where act_id = #{actId} and mission_date =
+		#{startDate} and userid = #{userid}
+	</select>
+
+	<update id="updateActivityState">
+		update activity_state set state = 2, end_date =
+		current_timestamp
+		where state_id=#{stateId}
+	</update>
+
+	<select id="getActivityPoint" resultType="_int">
+		select point from
+		activity where act_id = #{actId }
+	</select>
+
+	<update id="updatePoint">
+		update user set user_point = user_point + #{point} where userid
+		= #{userid}
+	</update>
+
+</mapper>

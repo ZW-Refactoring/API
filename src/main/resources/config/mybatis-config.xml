@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 
+3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 타입 별칭 설정============================ -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.zero.map.MapVO" alias="MapVO"/>
+		<typeAlias type="com.zero.activity.ActivityVO" alias="ActVO"/>
+		<typeAlias type="com.zero.activity.ActivityStateVO" alias="ActStateVO"/>
+		<typeAlias type="com.zero.activity.UserActDTO" alias="UserActDTO"/>
+		<typeAlias type="com.zero.activity.UserReportVO" alias="UserRepVo"/>
+		<typeAlias type="com.zero.admin.ReportVO" alias="ReportVO"/>
+		<typeAlias type="com.zero.admin.AdminDTO" alias="AdminDTO"/>
+		<typeAlias type="com.zero.dailymission.UserDailyMissionVO" alias="UserDailyMissionVO"/>
+		<typeAlias type="com.zero.board.Board" alias="Board"/>
+		<typeAlias type="com.zero.board.Criteria" alias="Criteria"/>
+		<typeAlias type="com.zero.board.comment.Comment" alias="Comment"/>
+		<typeAlias type="com.zero.tree.UserRankVO" alias="UserRankVO"/>
+		<typeAlias type="com.zero.user.dto.UserBookmarkVO" alias="UserBookmarkVO"/>
+
+	</typeAliases> 
+</configuration>
